@@ -12,8 +12,8 @@ class Game
 {
 private:
     int turn;                           // Turn number
-    std::shared_ptr<Player> player1;    // Pointer to first player
-    std::shared_ptr<Player> player2;    // Pointer to second player
+    std::unique_ptr<Player> currPlayer;    // Pointer to current player
+    std::unique_ptr<Player> nextPlayer;    // Pointer to next player
     Board board;                        // Game board
     std::vector<Move> moveHistory;      // History of moves from first to last
 
