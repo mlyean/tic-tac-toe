@@ -18,7 +18,12 @@ Piece Board::getPiece(int i, int j) const
 {
     if (i < 0 || i >= 3) throw std::out_of_range("i out of range");
     if (j < 0 || j >= 3) throw std::out_of_range("j out of range");
-    return board.at(i + 3 * j);
+    return getPiece(i + 3 * j);
+}
+
+Piece Board::getPiece(int pos) const
+{
+    return board.at(pos);
 }
 
 std::string Board::str() const

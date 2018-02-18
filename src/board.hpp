@@ -17,5 +17,6 @@ public:
     Board();                            // Board constructor
     ~Board();                           // Board destructor
     Piece getPiece(int, int) const;     // Return the piece located at given coordinates
+    Piece getPiece(int) const;
     std::string str() const;            // Return the string representation
 };
