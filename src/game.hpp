@@ -23,6 +23,8 @@ public:
         DRAW;
     };
 
+    Game(Player, Player);
+    ~Game();
     GameState getState() const;
     void next();
 }

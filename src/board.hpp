@@ -8,8 +8,13 @@
 
 class Board
 {
+private:
     std::array<Piece, 9> board;
 
+public:
+    Board();
+    ~Board();
     void makeMove(Move);
+    Piece& getPiece(int, int);
     std::string str() const;
 };
