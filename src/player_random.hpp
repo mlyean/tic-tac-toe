@@ -6,5 +6,5 @@ struct RandomPlayer : public Player
 {
     RandomPlayer(int, Piece);       // RandomPlayer constructor
     ~RandomPlayer();                // RandomPlayer destructor
-    virtual Move getMove(Board);    // Return a move made by RandomPlayer
+    virtual Move getMove(const Board&);    // Return a move made by RandomPlayer
 };
