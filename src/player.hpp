@@ -5,13 +5,11 @@
 #include "piece.hpp"
 #include "move.hpp"
 
-class Player
+struct Player
 {
-private:
     const Piece piece;
     const int id;
 
-public:
     Player(int, Piece);
     ~Player();
     std::string str() const;
