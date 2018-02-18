@@ -3,7 +3,7 @@ CXX = g++
 CXXFLAGS = -Wall
 
 # Object files
-_OBJS = main.o board.o game.o move.o player.o player_human.o
+_OBJS = main.o board.o game.o move.o player.o player_human.o player_random.o
 
 # Executable name
 EXEC = main.exe
