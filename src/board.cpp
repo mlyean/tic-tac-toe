@@ -29,9 +29,9 @@ std::string Board::str() const
         for (int i = 0; i < 3; ++i)
         {
             oss << static_cast<char>(getPiece(i, j));
-            if (i != 2) oss << ' ';
+            if (i != 2) oss << '|';
         }
-        if (j != 2) oss << '\n';
+        if (j != 2) oss << "\n-+-+-\n";
     }
 
     return oss.str();
