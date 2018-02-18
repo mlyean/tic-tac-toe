@@ -1,4 +1,5 @@
 #include <sstream>
+#include <stdexcept>
 
 #include "board.hpp"
 
@@ -13,6 +14,8 @@ void Board::makeMove(Move move)
 
 Piece Board::getPiece(int i, int j) const
 {
+    if (i < 0 || i >= 3) throw std::out_of_range("i out of range");
+    if (j < 0 || j >= 3) throw std::out_of_range("j out of range");
     return board.at(i + 3 * j);
 }
 
