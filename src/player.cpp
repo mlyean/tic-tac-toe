@@ -4,6 +4,8 @@
 
 Player::Player(int id, Piece piece) : id(id), piece(piece) {}
 
+Player::~Player() {}
+
 std::string Player::str() const
 {
     std::ostringstream oss;

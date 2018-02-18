@@ -7,6 +7,8 @@ Board::Board() {
     board.fill(Piece::EMPTY);
 }
 
+Board::~Board() {}
+
 void Board::makeMove(Move move)
 {
     board.at(move.i + 3 * move.j) = move.piece;

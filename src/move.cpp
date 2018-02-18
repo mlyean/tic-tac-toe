@@ -11,6 +11,8 @@ Move::Move(int i, int j, Piece piece) : i(i), j(j), piece(piece)
     if (piece == Piece::EMPTY) throw std::invalid_argument("Argument piece is EMPTY");
 }
 
+Move::~Move() {}
+
 std::string Move::str() const
 {
     std::ostringstream oss;
