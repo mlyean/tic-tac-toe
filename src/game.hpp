@@ -30,4 +30,4 @@ public:
     GameState getState() const;     // Return the state of the game
     void next();                    // Get move from the player and excecute the move
     std::string str() const;        // Return the string representation
-}
+};
