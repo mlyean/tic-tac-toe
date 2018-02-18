@@ -3,6 +3,12 @@
 
 #include "game.hpp"
 
+const static int winPos[8][3] {
+    {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+    {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+    {0, 4, 8}, {2, 4, 6}
+};
+
 Game::Game(Player* player1, Player* player2) : currPlayer(player1), nextPlayer(player2)
 {
     turn = 1;
@@ -15,49 +21,12 @@ Game::GameState Game::getState() const
 {
     if (turn > 9) return GameState::DRAW;
 
-    bool hasWinner = false;
-    
-    // Check columns
-    for (int i = 0; i < 3; ++i)
-    {
-        Piece cmp = board.getPiece(i, 0);
+    for (int k = 0; k < 8; ++k) {
+        Piece cmp = board.getPiece(winPos[k][0]);
         if (cmp == Piece::EMPTY) continue;
-        if (board.getPiece(i, 1) != cmp) continue;
-        if (board.getPiece(i, 2) != cmp) continue;
-        // Column found
-        hasWinner = true;
-    }
-
-    // Check rows
-    for (int j = 0; j < 3; ++j)
-    {
-        Piece cmp = board.getPiece(0, j);
-        if (cmp == Piece::EMPTY) continue;
-        if (board.getPiece(1, j) != cmp) continue;
-        if (board.getPiece(2, j) != cmp) continue;
-        // Row found
-        hasWinner = true;
-    }
-
-    // Check diagonals
-    {
-        Piece cmp = board.getPiece(0, 0);
-        if (cmp != Piece::EMPTY)
-            if (board.getPiece(1, 1) == cmp)
-                if (board.getPiece(2, 2) == cmp)
-                    hasWinner = true;
-    }
-
-    {
-        Piece cmp = board.getPiece(2, 0);
-        if (cmp != Piece::EMPTY)
-            if (board.getPiece(1, 1) == cmp)
-                if (board.getPiece(0, 2) == cmp)
-                    hasWinner = true;
-    }
-
-    if (hasWinner)
-    {
+        if (board.getPiece(winPos[k][1]) != cmp) continue;
+        if (board.getPiece(winPos[k][2]) != cmp) continue;
+        
         if (turn % 2 == 0) return GameState::PLAYER_1_WIN;
         else return GameState::PLAYER_2_WIN;
     }
