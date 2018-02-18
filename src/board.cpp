@@ -11,12 +11,12 @@ void Board::makeMove(const Move& move)
     board.at(move.i + 3 * move.j) = move.piece;
 }
 
-Piece getPiece(int i, int j) const
+Piece Board::getPiece(int i, int j) const
 {
     return board.at(i + 3 * j);
 }
 
-std::string str() const
+std::string Board::str() const
 {
     std::ostringstream oss;
     for (int j = 0; j < 3; ++j)
