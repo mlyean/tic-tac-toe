@@ -8,10 +8,12 @@
 
 struct Player
 {
-    const int id;                               // Id of the player
+    const int id;                               // Player ID
     const Piece piece;                          // Piece used by the player
+    const std::string name;                     // Player name
 
-    Player(int, Piece);                         // Player constructor
+    Player(int, Piece);
+    Player(int, Piece, const std::string&);     // Player constructor
     ~Player();                                  // Player destructor
     virtual Move getMove(const Board&) = 0;     // Return a move made by the player
     std::string str() const;                    // Return the string representation
