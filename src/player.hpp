@@ -16,4 +16,4 @@ public:
     ~Player();
     std::string str() const;
     virtual Move getMove() = 0;
-}
+};

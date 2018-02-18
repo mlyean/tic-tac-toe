@@ -12,4 +12,4 @@ class Board
 
     void makeMove(Move);
     std::string str() const;
-}
+};
