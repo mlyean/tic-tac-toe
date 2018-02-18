@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "board.hpp"
@@ -28,4 +29,5 @@ public:
     ~Game();
     GameState getState() const;
     void next();
+    std::string str() const;
 }
