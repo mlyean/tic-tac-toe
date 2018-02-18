@@ -4,7 +4,7 @@
 #include "player_human.hpp"
 
 int main() {
-    std::cout << "Welcome to Tic-Tac-Toe!\n\n";
+    std::cout << "Welcome to Tic-Tac-Toe!\n";
 
     while (true)
     {
