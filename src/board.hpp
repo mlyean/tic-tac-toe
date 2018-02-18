@@ -15,6 +15,6 @@ public:
     Board();
     ~Board();
     void makeMove(Move);
-    Piece& getPiece(int, int);
+    const Piece& getPiece(int, int) const;
     std::string str() const;
 };
