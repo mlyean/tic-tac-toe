@@ -19,7 +19,7 @@ Game::GameState Game::getState() const
 {
     if (turn == 10) return GameState::DRAW;
     // Stub
-    return GameState::DRAW;
+    return GameState::IN_PROGRESS;
 }
 
 void Game::next()
@@ -47,8 +47,6 @@ void Game::next()
     board.makeMove(mv);
     
     turn++;
-
-    delete currentPlayer;
 }
 
 std::string Game::str() const
