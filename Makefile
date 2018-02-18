@@ -18,7 +18,7 @@ DEBEXEC = $(DEBTARDIR)/$(EXEC)
 RELTARDIR = build/release
 RELOBJDIR = build/release/obj
 RELOBJS = $(patsubst %.o,$(RELOBJDIR)/%.o,$(_OBJS))
-RELEXEC = = $(RELTARDIR)/$(EXEC)
+RELEXEC = $(RELTARDIR)/$(EXEC)
 
 OBJDIR = build/debug/obj
 TARGETDIR = build/debug
