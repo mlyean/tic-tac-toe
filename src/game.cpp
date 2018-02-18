@@ -9,11 +9,7 @@ Game::Game(Player* player1, Player* player2) : player1(player1), player2(player2
     moveHistory.reserve(9);
 }
 
-Game::~Game()
-{
-    delete player1;
-    delete player2;
-}
+Game::~Game() {}
 
 Game::GameState Game::getState() const
 {
@@ -26,7 +22,7 @@ void Game::next()
 {
     if (turn > 9) throw std::out_of_range("Number of turns exceeded");
     
-    Player* currentPlayer;
+    std::shared_ptr<Player> currentPlayer;
     if (turn % 2 == 1) currentPlayer = player1;
     else currentPlayer = player2;
 
