@@ -9,7 +9,7 @@ HumanPlayer::~HumanPlayer() {}
 Move HumanPlayer::getMove(const Board& board)
 {
     int i, j;
-    std::cout << "Board state:\n" << board.str() << "\n\n[Player " << id << "] Move (row, col): ";
+    std::cout << "\n" << board.str() << "\n\n[Player " << id << "] Move (row, col): ";
     std::cin >> j >> i;
-    return {i + 1, j + 1, piece};
+    return {i - 1, j - 1, piece};
 }
