@@ -8,8 +8,8 @@
 
 struct Player
 {
-    const Piece piece;                          // Piece used by the player
     const int id;                               // Id of the player
+    const Piece piece;                          // Piece used by the player
 
     Player(int, Piece);                         // Player constructor
     ~Player();                                  // Player destructor
