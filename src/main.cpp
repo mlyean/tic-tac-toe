@@ -18,16 +18,23 @@ int main() {
 
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
-            try {
-                game.next();
-            }
-            catch (std::exception &e)
-            {
-                std::cout << "Invalid move detected, try again\n";
-            }
+            try { game.next(); }
+            catch (std::exception &e) { std::cout << "Invalid move detected, try again\n"; }
         }
 
-        std::cout << "\nGame over!\n";
+        switch (game.getState()) {
+        case Game::GameState::DRAW:
+            std::cout << "\nIt's a draw!\n";
+            break;
+        case Game::GameState::PLAYER_1_WIN:
+            std::cout << "\n" << player1Name << " wins!\n";
+            break;
+        case Game::GameState::PLAYER_2_WIN:
+            std::cout << "\n" << player2Name << " wins!\n";
+            break;
+        default:
+            break;
+        }
     }
 
     return 0;
