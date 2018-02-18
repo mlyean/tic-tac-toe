@@ -4,7 +4,7 @@
 
 struct HumanPlayer : public Player
 {
-    HumanPlayer(int, Piece);
-    ~HumanPlayer();
-    virtual Move getMove();
-}
+    HumanPlayer(int, Piece);        // HumanPlayer constructor
+    ~HumanPlayer();                 // HumanPlayer destructor
+    virtual Move getMove(Board);    // Return a move made by HumanPlayer
+};

@@ -10,13 +10,13 @@
 class Board
 {
 private:
-    std::array<Piece, 9> board;
-    void makeMove(Move);
-    friend void Game::next();
+    std::array<Piece, 9> board;         // Internal tic-tac-toe board representation
+    void makeMove(Move);                // Make a move and update the board
+    friend void Game::next();           // Only allow Game::next to make a move
 
 public:
-    Board();
-    ~Board();
-    Piece getPiece(int, int) const;
-    std::string str() const;
+    Board();                            // Board constructor
+    ~Board();                           // Board destructor
+    Piece getPiece(int, int) const;     // Return the piece located at given coordinates
+    std::string str() const;            // Return the string representation
 };

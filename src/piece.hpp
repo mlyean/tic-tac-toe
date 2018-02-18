@@ -2,7 +2,7 @@
 
 enum class Piece : char
 {
-    EMPTY = ' ',
-    KNOT = 'O',
-    CROSS = 'X'
+    EMPTY = ' ',    // Empty piece
+    KNOT = 'O',     // Knot ('O') piece
+    CROSS = 'X'     // Cross ('X') piece
 };

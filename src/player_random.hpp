@@ -4,7 +4,7 @@
 
 struct RandomPlayer : public Player
 {
-    RandomPlayer(int, Piece);
-    ~RandomPlayer();
-    virtual Move getMove();
-}
+    RandomPlayer(int, Piece);       // RandomPlayer constructor
+    ~RandomPlayer();                // RandomPlayer destructor
+    virtual Move getMove(Board);    // Return a move made by RandomPlayer
+};
