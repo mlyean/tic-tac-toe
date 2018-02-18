@@ -12,7 +12,7 @@ class Board
 private:
     std::array<Piece, 9> board;         // Internal tic-tac-toe board representation
     void makeMove(Move);                // Make a move and update the board
-    friend void Game::next();           // Only allow Game::next to make a move
+    friend class Game;           // Only allow Game::next to make a move
 
 public:
     Board();                            // Board constructor
