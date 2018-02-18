@@ -22,19 +22,23 @@ int main() {
             catch (std::exception &e) { std::cout << "Invalid move detected, try again\n"; }
         }
 
+        std::cout << '\n';
+
         switch (game.getState()) {
         case Game::GameState::DRAW:
-            std::cout << "\nIt's a draw!\n";
+            std::cout << "It's a draw!";
             break;
         case Game::GameState::PLAYER_1_WIN:
-            std::cout << "\n" << player1Name << " wins!\n";
+            std::cout << player1Name << " wins!";
             break;
         case Game::GameState::PLAYER_2_WIN:
-            std::cout << "\n" << player2Name << " wins!\n";
+            std::cout << player2Name << " wins!";
             break;
         default:
             break;
         }
+
+        std::cout << std::endl;
     }
 
     return 0;
