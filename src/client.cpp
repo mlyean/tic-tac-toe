@@ -45,7 +45,7 @@ void TicTacToeClient::promptName()
 {
     int p1x, p2x, tmp;
 
-    WINDOW* prompt(newwin(4, 48, 1, 1));
+    WINDOW* prompt(newwin(4, 48, 3, 2));
     box(prompt, 0, 0);
 
     mvwprintw(prompt, 1, 1, "Player 1 Name: ");
@@ -122,16 +122,16 @@ std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
     waddch(prompt, '\t');    
 
     wmove(prompt, 0, rowx);
-    while (i <= 0 || i > 3)
-        i = wgetch(prompt) - '0';
-    
-    waddch(prompt, i + '0');
-
-    wmove(prompt, 0, colx);
     while (j <= 0 || j > 3)
         j = wgetch(prompt) - '0';
     
     waddch(prompt, j + '0');
+
+    wmove(prompt, 0, colx);
+    while (i <= 0 || i > 3)
+        i = wgetch(prompt) - '0';
+    
+    waddch(prompt, i + '0');
 
     wclear(prompt);
     wrefresh(prompt);
@@ -145,31 +145,30 @@ void TicTacToeClient::init()
     noecho();
     cbreak();
 
-    printw("Tic-Tac-Toe\n\n");
-    refresh();
+    WINDOW* titlebar(newwin(1, 20, 0, 0));
+    wattrset(titlebar, A_BOLD);
+    wprintw(titlebar, "Tic-Tac-Toe");
+    wrefresh(titlebar);
 
     promptName();
-
-    clear();
-    move(0, 0);
 }
 
 void TicTacToeClient::run()
 {
+    WINDOW* boardBox(newwin(7, 13, 2, 2));
+
     while (true)
     {
         Game game(new HumanPlayer(1, Piece::KNOT, player1Name), new RandomPlayer(2, Piece::CROSS, player2Name));
 
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
-            clear();
-            mvprintw(1, 0, (game.board.str() + "\n\n").c_str());
-            refresh();
+            mvwprintw(boardBox, 0, 0, game.board.str().c_str());
+            wrefresh(boardBox);
             game.next();
+            wclear(boardBox);
+            wrefresh(boardBox);
         }
-
-        clear();
-        move(1, 0);
 
         switch (game.getState()) {
         case Game::GameState::DRAW:
