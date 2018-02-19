@@ -5,14 +5,14 @@
 class TicTacToeClient
 {
 private:
-    std::string player1Name;
-    std::string player2Name;
-    void promptName();
-    bool promptRematch() const;
+    std::string player1Name;        // Name of player 1
+    std::string player2Name;        // Name of player 2
+    void promptName();              // Prompt to get player names
+    bool promptRematch() const;     // Prompt to rematch
 
 public:
-    TicTacToeClient();
-    ~TicTacToeClient();
-    void init();
-    void run();
+    TicTacToeClient();              // TicTacToeClient constructor
+    ~TicTacToeClient();             // TicTacToeClient destructor
+    void init();                    // Print greetings and prompt for names
+    void run();                     // Start game loop
 };
