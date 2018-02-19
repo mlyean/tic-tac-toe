@@ -23,7 +23,7 @@ RELEXEC = $(RELTARDIR)/$(EXEC)
 OBJDIR = build/debug/obj
 TARGETDIR = build/debug
 
-all: release
+all: debug release
 
 # Debug target
 debug: CXXFLAGS += -g
@@ -43,6 +43,9 @@ $(RELEXEC): $(RELOBJS)
 
 $(RELOBJDIR)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+demo: release
+	cp $(RELEXEC) demo/$(EXEC)
 
 .PHONY: clean
 clean:

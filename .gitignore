@@ -1,5 +1,2 @@
-build/debug/*
-build/release/*
-!build/debug/*.exe
-!build/release/*.exe
+build/
 .vscode/settings.json
