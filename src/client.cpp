@@ -2,8 +2,8 @@
 
 #include "client.hpp"
 #include "game.hpp"
-#include "player_human.hpp"
-#include "player_random.hpp"
+#include "players/human.hpp"
+#include "players/random.hpp"
 
 TicTacToeClient::TicTacToeClient() {}
 
