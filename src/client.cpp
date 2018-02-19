@@ -69,7 +69,6 @@ void TicTacToeClient::promptName()
 
 bool TicTacToeClient::promptRematch() const
 {
-
     int ch, x, tmp;
     WINDOW* prompt(newwin(1, COLS, LINES - 1, 1));
 
@@ -90,6 +89,8 @@ bool TicTacToeClient::promptRematch() const
             wclear(prompt);
             wrefresh(prompt);
             return false;
+        case 10:
+        case KEY_ENTER:
         case 'y':
         case 'Y':
             wclear(prompt);
@@ -145,6 +146,9 @@ void TicTacToeClient::init()
     noecho();
     cbreak();
 
+    if (has_colors())
+        start_color();
+
     WINDOW* titlebar(newwin(1, 20, 0, 0));
     wattrset(titlebar, A_BOLD);
     wprintw(titlebar, "Tic-Tac-Toe");
@@ -170,26 +174,33 @@ void TicTacToeClient::run()
             wrefresh(boardBox);
         }
 
+        WINDOW* result(newwin(3, 20, 1, 1));
+        box(result, 0, 0);
+        wmove(result, 1, 1);
+
         switch (game.getState()) {
         case Game::GameState::DRAW:
-            printw("It's a draw!");
+            wprintw(result, "It's a draw!");
             break;
         case Game::GameState::PLAYER_1_WIN:
-            printw((player1Name + " wins!").c_str());
+            wprintw(result, (player1Name + " wins!").c_str());
             break;
         case Game::GameState::PLAYER_2_WIN:
-            printw((player2Name + " wins!").c_str());
+            wprintw(result, (player2Name + " wins!").c_str());
             break;
         default:
             break;
         }
-
-        refresh();
+        wrefresh(result);
 
         if (!promptRematch())
         {
             endwin();
             return;
         }
+
+        wclear(result);
+        wborder(result, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+        wrefresh(result);
     }
 }
