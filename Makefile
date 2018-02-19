@@ -6,7 +6,7 @@ CXXFLAGS = -Iinclude -IC:/msys64/mingw64/include/ncurses -Wall
 _OBJS = main.o board.o client.o game.o move.o player.o player_human.o player_random.o
 
 # Executable name
-EXEC = main.exe
+EXEC = tictactoe.exe
 
 # Debug parameters
 DEBTARDIR = build/debug
