@@ -3,7 +3,7 @@ CXX = g++
 CXXFLAGS = -Iinclude -IC:/msys64/mingw64/include/ncurses -Wall
 
 # Object files
-_OBJS = main.o board.o client.o game.o move.o player.o player_human.o player_random.o
+_OBJS = main.o board.o client.o game.o move.o player.o players/human.o players/random.o
 
 # Executable name
 EXEC = tictactoe.exe
