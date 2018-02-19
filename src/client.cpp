@@ -45,7 +45,7 @@ void TicTacToeClient::promptName()
 {
     int p1x, p2x, tmp;
 
-    WINDOW* prompt(newwin(4, 48, 3, 2));
+    WINDOW* prompt(newwin(4, 48, 2, 2));
     box(prompt, 0, 0);
 
     mvwprintw(prompt, 1, 1, "Player 1 Name: ");
@@ -63,7 +63,6 @@ void TicTacToeClient::promptName()
     wattroff(prompt, A_BOLD);
 
     wclear(prompt);
-    wborder(prompt, ' ', ' ', ' ',' ',' ',' ',' ',' ');
     wrefresh(prompt);
 }
 
@@ -169,7 +168,6 @@ void TicTacToeClient::run()
 
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
-            // mvwprintw(boardBox, 0, 0, game.board.str().c_str());
             for (int j = 0; j < 3; ++j)
             {
                 wmove(boardBox, 2 * j + 1, 1);
@@ -184,17 +182,14 @@ void TicTacToeClient::run()
                 if (j < 2)
                 {
                     wmove(boardBox, 2 * j + 2, 1);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_PLUS);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_PLUS);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_HLINE);
-                    waddch(boardBox, ACS_HLINE);
+                    for (int k = 0; k < 3; ++k)
+                    {
+                        waddch(boardBox, ACS_HLINE);
+                        waddch(boardBox, ACS_HLINE);
+                        waddch(boardBox, ACS_HLINE);
+                        if (k < 2)
+                            waddch(boardBox, ACS_PLUS);
+                    }
                 }
             }
             wrefresh(boardBox);
