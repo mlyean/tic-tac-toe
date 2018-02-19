@@ -60,40 +60,70 @@ void TicTacToeClient::promptName()
 bool TicTacToeClient::promptRematch() const
 {
     int ch;
-    WINDOW* prompt(newwin(3, 48, 5, 1));
-    box(prompt, 0, 0);
+    WINDOW* prompt(newwin(1, COLS, LINES - 1, 1));
 
-    mvwprintw(prompt, 1, 1, "Play again? [Y/n] ");
-    ch = wgetch(prompt);
+    wattrset(prompt, A_REVERSE);
+    mvwprintw(prompt, 0, 1, "Play again? [y/n]\t");
 
-    wclear(prompt);
-    wborder(prompt, ' ', ' ', ' ',' ',' ',' ',' ',' ');
     wrefresh(prompt);
-    
-    if (ch == 'n' || ch == 'N') return false;
 
-    return true;
+    while (true) {
+        ch = wgetch(prompt);
+
+        switch (ch) {
+        case 'n':
+        case 'N':
+            wclear(prompt);
+            wrefresh(prompt);
+            return false;
+        case 'y':
+        case 'Y':
+            wclear(prompt);
+            wrefresh(prompt);
+            return true;
+        default:
+            continue;
+        }
+    }
 }
 
 std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
 {
-    int i = -1;
-    int j = -1;
+    int i = 0;
+    int j = 0;
 
-    printw(msg.c_str());
+    int rowx, colx, tmp;
 
-    printw("Row: ");
+    WINDOW* prompt(newwin(1, COLS, LINES - 1, 1));
 
+    wattrset(prompt, A_REVERSE);
+
+    mvwprintw(prompt, 0, 1, msg.c_str());
+
+    wprintw(prompt, "Row: ");
+    getyx(prompt, tmp, rowx);
+
+    waddch(prompt, '\t');
+
+    wprintw(prompt, "Col: ");
+    getyx(prompt, tmp, colx);
+
+    waddch(prompt, '\t');    
+
+    wmove(prompt, 0, rowx);
     while (i <= 0 || i > 3)
-        i = getch() - '0';
-
-    printw((std::to_string(i) + "\t").c_str());
-    printw("Col: ");
-
-    while (j <= 0 || j > 3)
-        j = getch() - '0';
+        i = wgetch(prompt) - '0';
     
-    printw((std::to_string(j) + "\n\n").c_str());
+    waddch(prompt, i + '0');
+
+    wmove(prompt, 0, colx);
+    while (j <= 0 || j > 3)
+        j = wgetch(prompt) - '0';
+    
+    waddch(prompt, j + '0');
+
+    wclear(prompt);
+    wrefresh(prompt);
     
     return std::make_pair(i, j);
 }
@@ -104,7 +134,7 @@ void TicTacToeClient::init()
     noecho();
     cbreak();
 
-    printw("Welcome to Tic-Tac-Toe!\n\n");
+    printw("Tic-Tac-Toe\n\n");
     refresh();
 
     promptName();
@@ -122,9 +152,9 @@ void TicTacToeClient::run()
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
             clear();
-            printw((game.board.str() + "\n\n").c_str());
-            game.next();
+            mvprintw(1, 0, (game.board.str() + "\n\n").c_str());
             refresh();
+            game.next();
         }
 
         clear();
