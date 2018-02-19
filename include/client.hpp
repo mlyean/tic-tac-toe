@@ -9,6 +9,8 @@ private:
     std::string player2Name;        // Name of player 2
     void promptName();              // Prompt to get player names
     bool promptRematch() const;     // Prompt to rematch
+    static std::pair<int, int> getHumanMove(std::string);
+    friend class HumanPlayer;
 
 public:
     TicTacToeClient();              // TicTacToeClient constructor

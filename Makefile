@@ -1,6 +1,6 @@
 # Compiler parameters
 CXX = g++
-CXXFLAGS = -Iinclude -Wall
+CXXFLAGS = -Iinclude -IC:/msys64/mingw64/include/ncurses -Wall
 
 # Object files
 _OBJS = main.o board.o client.o game.o move.o player.o player_human.o player_random.o
@@ -30,7 +30,7 @@ debug: CXXFLAGS += -g
 debug: $(DEBEXEC)
 
 $(DEBEXEC): $(DEBOBJS)
-	$(CXX) $(DEBOBJS) -o $@
+	$(CXX) $(DEBOBJS) -o $@ -lncurses
 
 $(DEBOBJDIR)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -39,7 +39,7 @@ $(DEBOBJDIR)/%.o: src/%.cpp
 release: $(RELEXEC)
 
 $(RELEXEC): $(RELOBJS)
-	$(CXX) $(RELOBJS) -o $@
+	$(CXX) $(RELOBJS) -o $@ -lncurses
 
 $(RELOBJDIR)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<

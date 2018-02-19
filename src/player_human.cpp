@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "client.hpp"
 #include "players/human.hpp"
 
 HumanPlayer::HumanPlayer(int id, Piece piece) : Player(id, piece) {}
@@ -10,10 +11,7 @@ HumanPlayer::~HumanPlayer() {}
 
 Move HumanPlayer::getMove(const Board& board)
 {
-    int i, j;
-    std::cout << '[' << name << "] Move (row, col): ";
-    std::cin >> j >> i;
-    std::cout << '\n';
+    std::pair<int, int> pos = TicTacToeClient::getHumanMove("[" + name + "] ");
 
-    return {i - 1, j - 1, piece};
+    return {pos.first - 1, pos.second - 1, piece};
 }

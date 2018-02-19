@@ -52,7 +52,8 @@
                 "C:/msys64/mingw64/include/c++/7.3.0/tr1",
                 "C:/msys64/mingw64/include/c++/7.3.0/tr2",
                 "C:/msys64/mingw64/include/c++/7.3.0/x86_64-w64-mingw32",
-                "C:/msys64/mingw64/x86_64-w64-mingw32/include"
+                "C:/msys64/mingw64/x86_64-w64-mingw32/include",
+                "C:/msys64/mingw64/include/ncurses"
             ],
             "defines": [
                 "_DEBUG",

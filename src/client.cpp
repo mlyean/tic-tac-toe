@@ -1,9 +1,32 @@
 #include <iostream>
 
+#include <ncurses.h>
+
 #include "client.hpp"
 #include "game.hpp"
 #include "players/human.hpp"
 #include "players/random.hpp"
+
+std::string getStr()
+{
+    std::string input;
+    
+    nocbreak();
+    echo();
+
+    int ch = getch();
+
+    while (ch != '\n')
+    {
+        input.push_back(ch);
+        ch = getch();
+    }
+
+    cbreak();
+    noecho();
+
+    return input;
+}
 
 TicTacToeClient::TicTacToeClient() {}
 
@@ -11,27 +34,58 @@ TicTacToeClient::~TicTacToeClient() {}
 
 void TicTacToeClient::promptName()
 {
-    std::cout << "Player 1 Name: ";
-    std::cin >> player1Name;
-    std::cout << "Player 2 Name: ";
-    std::cin >> player2Name;
-    std::cout << '\n';
+    printw("Player 1 Name: ");
+    player1Name = getStr();
+    printw("Player 2 Name: ");
+    player2Name = getStr();
+    printw("\n");
 }
 
 bool TicTacToeClient::promptRematch() const
 {
-    char response;
-    std::cout << "Play again? [Y/n] ";
-    std::cin >> response;
-    std::cout << '\n';
+    printw("Play again? [Y/n] ");
+    echo();
+
+    int response = getch();
+    
+    noecho();
+    printw("\n");
 
     if (response == 'n' || response == 'N') return false;
     return true;
 }
 
+std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
+{
+    int i = -1;
+    int j = -1;
+
+    printw(msg.c_str());
+
+    printw("Row: ");
+
+    while (i <= 0 || i > 3)
+        i = getch() - '0';
+
+    printw((std::to_string(i) + "\t").c_str());
+    printw("Col: ");
+
+    while (j <= 0 || j > 3)
+        j = getch() - '0';
+    
+    printw((std::to_string(j) + "\n").c_str());
+    
+    return std::make_pair(i, j);
+}
+
 void TicTacToeClient::init()
 {
-    std::cout << "Welcome to Tic-Tac-Toe!\n";
+    initscr();
+    noecho();
+    cbreak();
+
+    printw("Welcome to Tic-Tac-Toe!\n");
+    refresh();
 
     promptName();
 }
@@ -44,27 +98,31 @@ void TicTacToeClient::run()
 
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
-            std::cout << game.board.str() << "\n\n";
+            printw((game.board.str() + "\n\n").c_str());
             try { game.next(); }
-            catch (std::exception &e) { std::cout << "Invalid move detected, try again\n\n"; }
+            catch (std::exception &e) { printw("Invalid move detected, try again\n\n"); }
         }
 
         switch (game.getState()) {
         case Game::GameState::DRAW:
-            std::cout << "It's a draw!";
+            printw("It's a draw!");
             break;
         case Game::GameState::PLAYER_1_WIN:
-            std::cout << player1Name << " wins!";
+            printw((player1Name + " wins!").c_str());
             break;
         case Game::GameState::PLAYER_2_WIN:
-            std::cout << player2Name << " wins!";
+            printw((player2Name + " wins!").c_str());
             break;
         default:
             break;
         }
 
-        std::cout << "\n\n";
+        printw("\n\n");
 
-        if (!promptRematch()) return;
+        if (!promptRematch())
+        {
+            endwin();
+            return;
+        }
     }
 }
