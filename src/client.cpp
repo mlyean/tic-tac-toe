@@ -159,20 +159,50 @@ void TicTacToeClient::init()
 
 void TicTacToeClient::run()
 {
-    WINDOW* boardBox(newwin(7, 13, 2, 2));
 
     while (true)
     {
         Game game(new HumanPlayer(1, Piece::KNOT, player1Name), new RandomPlayer(2, Piece::CROSS, player2Name));
 
+        WINDOW* boardBox(newwin(7, 13, 2, 2));
+        box(boardBox, 0, 0);
+
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
-            mvwprintw(boardBox, 0, 0, game.board.str().c_str());
+            // mvwprintw(boardBox, 0, 0, game.board.str().c_str());
+            for (int j = 0; j < 3; ++j)
+            {
+                wmove(boardBox, 2 * j + 1, 1);
+                for (int i = 0; i < 3; ++i)
+                {
+                    waddch(boardBox, ' ');
+                    waddch(boardBox, static_cast<char>(game.board.getPiece(i, j)));
+                    waddch(boardBox, ' ');
+                    if (i < 2)
+                        waddch(boardBox, ACS_VLINE);
+                }
+                if (j < 2)
+                {
+                    wmove(boardBox, 2 * j + 2, 1);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_PLUS);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_PLUS);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_HLINE);
+                    waddch(boardBox, ACS_HLINE);
+                }
+            }
             wrefresh(boardBox);
             game.next();
-            wclear(boardBox);
-            wrefresh(boardBox);
         }
+
+        wclear(boardBox);
+        wrefresh(boardBox);
 
         WINDOW* result(newwin(3, 20, 1, 1));
         box(result, 0, 0);
@@ -200,7 +230,6 @@ void TicTacToeClient::run()
         }
 
         wclear(result);
-        wborder(result, ' ', ' ', ' ',' ',' ',' ',' ',' ');
         wrefresh(result);
     }
 }
