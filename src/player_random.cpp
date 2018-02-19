@@ -1,4 +1,4 @@
-#include "player_random.hpp"
+#include "players/random.hpp"
 
 RandomPlayer::RandomPlayer(int id, Piece piece) :
     Player(id, piece), gen(rd()), dis(0, 2) {}

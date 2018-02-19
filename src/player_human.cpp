@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "player_human.hpp"
+#include "players/human.hpp"
 
 HumanPlayer::HumanPlayer(int id, Piece piece) : Player(id, piece) {}
 
