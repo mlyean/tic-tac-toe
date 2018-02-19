@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cctype>
 
 #include <ncurses.h>
 
@@ -7,25 +7,34 @@
 #include "players/human.hpp"
 #include "players/random.hpp"
 
-std::string getStr()
+std::string getStr(WINDOW* win)
 {
     std::string input;
-    
-    nocbreak();
-    echo();
+    int ch;
 
-    int ch = getch();
+    while (true) {
+        ch = wgetch(win);
 
-    while (ch != '\n')
-    {
-        input.push_back(ch);
-        ch = getch();
+        if (ch == KEY_ENTER || ch == 10)
+            return input;
+        else if (ch == KEY_BACKSPACE || ch == 8)
+        {
+            if (input.length() > 0)
+            {
+                input.pop_back();
+                int x, y;
+                getyx(win, y, x);
+                mvwaddch(win, y, x - 1, ' ');
+                wmove(win, y, x - 1);
+                wrefresh(win);
+            }
+        }
+        else if (std::isprint(ch))
+        {
+            input.push_back(ch);
+            waddch(win, ch);
+        }
     }
-
-    cbreak();
-    noecho();
-
-    return input;
 }
 
 TicTacToeClient::TicTacToeClient() {}
@@ -34,24 +43,35 @@ TicTacToeClient::~TicTacToeClient() {}
 
 void TicTacToeClient::promptName()
 {
-    printw("Player 1 Name: ");
-    player1Name = getStr();
-    printw("Player 2 Name: ");
-    player2Name = getStr();
-    printw("\n");
+    WINDOW* prompt(newwin(4, 48, 1, 1));
+    box(prompt, 0, 0);
+
+    mvwprintw(prompt, 1, 1, "Player 1 Name: ");
+    player1Name = getStr(prompt);
+
+    mvwprintw(prompt, 2, 1, "Player 2 Name: ");
+    player2Name = getStr(prompt);
+
+    wclear(prompt);
+    wborder(prompt, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+    wrefresh(prompt);
 }
 
 bool TicTacToeClient::promptRematch() const
 {
-    printw("Play again? [Y/n] ");
-    echo();
+    int ch;
+    WINDOW* prompt(newwin(3, 48, 5, 1));
+    box(prompt, 0, 0);
 
-    int response = getch();
+    mvwprintw(prompt, 1, 1, "Play again? [Y/n] ");
+    ch = wgetch(prompt);
+
+    wclear(prompt);
+    wborder(prompt, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+    wrefresh(prompt);
     
-    noecho();
-    printw("\n");
+    if (ch == 'n' || ch == 'N') return false;
 
-    if (response == 'n' || response == 'N') return false;
     return true;
 }
 
@@ -73,7 +93,7 @@ std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
     while (j <= 0 || j > 3)
         j = getch() - '0';
     
-    printw((std::to_string(j) + "\n").c_str());
+    printw((std::to_string(j) + "\n\n").c_str());
     
     return std::make_pair(i, j);
 }
@@ -84,24 +104,31 @@ void TicTacToeClient::init()
     noecho();
     cbreak();
 
-    printw("Welcome to Tic-Tac-Toe!\n");
+    printw("Welcome to Tic-Tac-Toe!\n\n");
     refresh();
 
     promptName();
+
+    clear();
+    move(0, 0);
 }
 
 void TicTacToeClient::run()
 {
     while (true)
     {
-        Game game(new HumanPlayer(1, Piece::KNOT, player1Name), new HumanPlayer(2, Piece::CROSS, player2Name));
+        Game game(new HumanPlayer(1, Piece::KNOT, player1Name), new RandomPlayer(2, Piece::CROSS, player2Name));
 
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
+            clear();
             printw((game.board.str() + "\n\n").c_str());
-            try { game.next(); }
-            catch (std::exception &e) { printw("Invalid move detected, try again\n\n"); }
+            game.next();
+            refresh();
         }
+
+        clear();
+        move(1, 0);
 
         switch (game.getState()) {
         case Game::GameState::DRAW:
@@ -117,7 +144,7 @@ void TicTacToeClient::run()
             break;
         }
 
-        printw("\n\n");
+        refresh();
 
         if (!promptRematch())
         {
