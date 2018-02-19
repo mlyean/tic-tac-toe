@@ -1,6 +1,6 @@
 # Compiler parameters
 CXX = g++
-CXXFLAGS = -Wall
+CXXFLAGS = -Iinclude -Wall
 
 # Object files
 _OBJS = main.o board.o client.o game.o move.o player.o player_human.o player_random.o

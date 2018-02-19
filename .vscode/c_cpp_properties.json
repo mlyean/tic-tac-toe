@@ -46,7 +46,7 @@
             "name": "Win32",
             "intelliSenseMode": "clang-x64",
             "includePath": [
-                "${workspaceRoot}",
+                "${workspaceRoot}/include",
                 "C:/msys64/mingw64/include",
                 "C:/msys64/mingw64/include/c++/7.3.0",
                 "C:/msys64/mingw64/include/c++/7.3.0/tr1",
