@@ -16,6 +16,7 @@ private:
     std::unique_ptr<Player> nextPlayer; // Pointer to next player
     Board board;                        // Game board
     std::vector<Move> moveHistory;      // History of moves from first to last
+    friend class TicTacToeClient;
 
 public:
     enum class GameState

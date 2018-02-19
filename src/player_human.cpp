@@ -11,7 +11,9 @@ HumanPlayer::~HumanPlayer() {}
 Move HumanPlayer::getMove(const Board& board)
 {
     int i, j;
-    std::cout << "\n" << board.str() << "\n\n[" << name << "] Move (row, col): ";
+    std::cout << '[' << name << "] Move (row, col): ";
     std::cin >> j >> i;
+    std::cout << '\n';
+
     return {i - 1, j - 1, piece};
 }
