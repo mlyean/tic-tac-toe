@@ -203,7 +203,7 @@ void TicTacToeClient::run()
         wclear(boardBox);
         wrefresh(boardBox);
 
-        WINDOW* result(newwin(3, 20, 1, 1));
+        WINDOW* result(newwin(3, 30, 1, 1));
         box(result, 0, 0);
         wmove(result, 1, 1);
 
