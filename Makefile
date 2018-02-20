@@ -44,9 +44,6 @@ $(RELEXEC): $(RELOBJS)
 $(RELOBJDIR)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-demo: release
-	cp $(RELEXEC) demo/$(EXEC)
-
 .PHONY: clean
 clean:
 	rm -f $(DEBOBJDIR)/*.o $(DEBTARDIR)/*.exe $(RELOBJDIR)/*.o $(RELTARDIR)/*.exe
