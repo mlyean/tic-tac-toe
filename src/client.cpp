@@ -92,7 +92,7 @@ std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
     
     waddch(prompt, j + '0');
 
-    wmove(prompt, rowy, colx);
+    wmove(prompt, coly, colx);
     while (i <= 0 || i > 3)
         i = wgetch(prompt) - '0';
     
