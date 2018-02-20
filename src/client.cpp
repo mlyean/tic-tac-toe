@@ -7,7 +7,7 @@
 #include "players/human.hpp"
 #include "players/random.hpp"
 
-std::string getStr(WINDOW* win)
+std::string getStr(WINDOW* win, int width)
 {
     std::string input;
     int ch;
@@ -29,12 +29,20 @@ std::string getStr(WINDOW* win)
                 wrefresh(win);
             }
         }
-        else if (std::isprint(ch))
+        else if (std::isprint(ch) && input.size() < width)
         {
             input.push_back(ch);
             waddch(win, ch);
         }
     }
+}
+
+WINDOW* statusBar()
+{
+    WINDOW* status(newwin(1, COLS, LINES - 1, 1));
+    wattrset(status, A_REVERSE);
+    wmove(status, 0, 1);
+    return status;
 }
 
 TicTacToeClient::TicTacToeClient() {}
@@ -56,9 +64,9 @@ void TicTacToeClient::promptName()
     wattron(prompt, A_BOLD);
 
     wmove(prompt, 1, p1x);
-    player1Name = getStr(prompt);
+    player1Name = getStr(prompt, 20);
     wmove(prompt, 2, p2x);
-    player2Name = getStr(prompt);
+    player2Name = getStr(prompt, 20);
 
     wattroff(prompt, A_BOLD);
 
@@ -69,10 +77,9 @@ void TicTacToeClient::promptName()
 bool TicTacToeClient::promptRematch() const
 {
     int ch, x, tmp;
-    WINDOW* prompt(newwin(1, COLS, LINES - 1, 1));
 
-    wattrset(prompt, A_REVERSE);
-    mvwprintw(prompt, 0, 1, "Play again? [y/n] ");
+    WINDOW* prompt(statusBar());
+    wprintw(prompt, "Play again? [y/n] ");
     getyx(prompt, tmp, x);
     waddch(prompt, '\t');
     wmove(prompt, 0, x);
@@ -108,11 +115,8 @@ std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
 
     int rowx, colx, tmp;
 
-    WINDOW* prompt(newwin(1, COLS, LINES - 1, 1));
-
-    wattrset(prompt, A_REVERSE);
-
-    mvwprintw(prompt, 0, 1, msg.c_str());
+    WINDOW* prompt(statusBar());
+    wprintw(prompt, msg.c_str());
 
     wprintw(prompt, "Row: ");
     getyx(prompt, tmp, rowx);
