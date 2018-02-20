@@ -45,6 +45,55 @@ WINDOW* statusBar()
     return status;
 }
 
+WINDOW* resultWin(std::string str)
+{
+    WINDOW* result(newwin(3, 30, 1, 1));
+    box(result, 0, 0);
+    mvwprintw(result, 1, 1, str.c_str());
+    wrefresh(result);
+}
+
+void drawBoard(WINDOW* boardBox, Board board)
+{
+    for (int j = 0; j < 3; ++j)
+    {
+        wmove(boardBox, 2 * j + 1, 1);
+        for (int i = 0; i < 3; ++i)
+        {
+            waddch(boardBox, ' ');
+
+            switch (board.getPiece(i, j))
+            {
+            case Piece::KNOT:
+                waddch(boardBox, 'O' | A_BOLD | COLOR_PAIR(1));
+                break;
+            case Piece::CROSS:
+                waddch(boardBox, 'X' | A_BOLD | COLOR_PAIR(2));
+                break;
+            default:
+                waddch(boardBox, ' ');
+            }
+
+            waddch(boardBox, ' ');
+            if (i < 2)
+                waddch(boardBox, ACS_VLINE);
+        }
+        if (j < 2)
+        {
+            wmove(boardBox, 2 * j + 2, 1);
+            for (int k = 0; k < 3; ++k)
+            {
+                waddch(boardBox, ACS_HLINE);
+                waddch(boardBox, ACS_HLINE);
+                waddch(boardBox, ACS_HLINE);
+                if (k < 2)
+                    waddch(boardBox, ACS_PLUS);
+            }
+        }
+    }
+    wrefresh(boardBox);
+}
+
 TicTacToeClient::TicTacToeClient() {}
 
 TicTacToeClient::~TicTacToeClient() {}
@@ -175,67 +224,23 @@ void TicTacToeClient::run()
 
         while (game.getState() == Game::GameState::IN_PROGRESS)
         {
-            for (int j = 0; j < 3; ++j)
-            {
-                wmove(boardBox, 2 * j + 1, 1);
-                for (int i = 0; i < 3; ++i)
-                {
-                    waddch(boardBox, ' ');
-
-                    switch (game.board.getPiece(i, j))
-                    {
-                    case Piece::KNOT:
-                        waddch(boardBox, 'O' | A_BOLD | COLOR_PAIR(1));
-                        break;
-                    case Piece::CROSS:
-                        waddch(boardBox, 'X' | A_BOLD | COLOR_PAIR(2));
-                        break;
-                    default:
-                        waddch(boardBox, ' ');
-                    }
-
-                    waddch(boardBox, ' ');
-                    if (i < 2)
-                        waddch(boardBox, ACS_VLINE);
-                }
-                if (j < 2)
-                {
-                    wmove(boardBox, 2 * j + 2, 1);
-                    for (int k = 0; k < 3; ++k)
-                    {
-                        waddch(boardBox, ACS_HLINE);
-                        waddch(boardBox, ACS_HLINE);
-                        waddch(boardBox, ACS_HLINE);
-                        if (k < 2)
-                            waddch(boardBox, ACS_PLUS);
-                    }
-                }
-            }
-            wrefresh(boardBox);
+            drawBoard(boardBox, game.board);
             game.next();
         }
 
         wclear(boardBox);
         wrefresh(boardBox);
 
-        WINDOW* result(newwin(3, 30, 1, 1));
-        box(result, 0, 0);
-        wmove(result, 1, 1);
+        std::string res;
 
-        switch (game.getState()) {
-        case Game::GameState::DRAW:
-            wprintw(result, "It's a draw!");
-            break;
-        case Game::GameState::PLAYER_1_WIN:
-            wprintw(result, (player1Name + " wins!").c_str());
-            break;
-        case Game::GameState::PLAYER_2_WIN:
-            wprintw(result, (player2Name + " wins!").c_str());
-            break;
-        default:
-            break;
-        }
-        wrefresh(result);
+        if (game.getState() == Game::GameState::DRAW)
+            res = "It's a draw!";
+        else if (game.getState() == Game::GameState::PLAYER_1_WIN)
+            res = player1Name + " wins!";
+        else if (game.getState() == Game::GameState::PLAYER_2_WIN)
+            res = player2Name + " wins!";
+
+        WINDOW* result(resultWin(res));
 
         if (!promptRematch())
         {
