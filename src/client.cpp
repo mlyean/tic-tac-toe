@@ -12,21 +12,21 @@ TicTacToeClient::~TicTacToeClient() {}
 
 void TicTacToeClient::promptName()
 {
-    int p1x, p2x, tmp;
+    int p1x, p1y, p2x, p2y;
 
     WINDOW* prompt(newwin(4, 48, 2, 2));
     box(prompt, 0, 0);
 
     mvwprintw(prompt, 1, 1, "Player 1 Name: ");
-    getyx(prompt, tmp, p1x);
+    getyx(prompt, p1y, p1x);
     mvwprintw(prompt, 2, 1, "Player 2 Name: ");
-    getyx(prompt, tmp, p2x);
+    getyx(prompt, p2y, p2x);
 
     wattron(prompt, A_BOLD);
 
-    wmove(prompt, 1, p1x);
+    wmove(prompt, p1y, p1x);
     player1Name = getStr(prompt, 20);
-    wmove(prompt, 2, p2x);
+    wmove(prompt, p2y, p2x);
     player2Name = getStr(prompt, 20);
 
     wattroff(prompt, A_BOLD);
@@ -37,13 +37,13 @@ void TicTacToeClient::promptName()
 
 bool TicTacToeClient::promptRematch() const
 {
-    int ch, x, tmp;
+    int ch, x, y;
 
     WINDOW* prompt(statusBar());
     wprintw(prompt, "Play again? [y/n] ");
-    getyx(prompt, tmp, x);
+    getyx(prompt, y, x);
     waddch(prompt, '\t');
-    wmove(prompt, 0, x);
+    wmove(prompt, y, x);
 
     wrefresh(prompt);
 
@@ -74,25 +74,25 @@ std::pair<int, int> TicTacToeClient::getHumanMove(std::string msg)
     int i = 0;
     int j = 0;
 
-    int rowx, colx, tmp;
+    int rowx, rowy, colx, coly;
 
     WINDOW* prompt(statusBar());
     wprintw(prompt, msg.c_str());
 
     wprintw(prompt, "Row: ");
-    getyx(prompt, tmp, rowx);
+    getyx(prompt, rowy, rowx);
     waddch(prompt, '\t');
     wprintw(prompt, "Col: ");
-    getyx(prompt, tmp, colx);
+    getyx(prompt, coly, colx);
     waddch(prompt, '\t');    
 
-    wmove(prompt, 0, rowx);
+    wmove(prompt, rowy, rowx);
     while (j <= 0 || j > 3)
         j = wgetch(prompt) - '0';
     
     waddch(prompt, j + '0');
 
-    wmove(prompt, 0, colx);
+    wmove(prompt, rowy, colx);
     while (i <= 0 || i > 3)
         i = wgetch(prompt) - '0';
     
