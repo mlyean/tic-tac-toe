@@ -44,6 +44,7 @@ WINDOW* resultWin(std::string str)
     box(result, 0, 0);
     mvwprintw(result, 1, 1, str.c_str());
     wrefresh(result);
+    return result;
 }
 
 void drawBoard(WINDOW* boardBox, Board board)
