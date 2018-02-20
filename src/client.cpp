@@ -151,6 +151,9 @@ void TicTacToeClient::init()
 
     if (has_colors())
         start_color();
+    
+    init_pair(1, COLOR_CYAN, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLACK);
 
     WINDOW* titlebar(newwin(1, 20, 0, 0));
     wattrset(titlebar, A_BOLD);
@@ -178,7 +181,19 @@ void TicTacToeClient::run()
                 for (int i = 0; i < 3; ++i)
                 {
                     waddch(boardBox, ' ');
-                    waddch(boardBox, static_cast<char>(game.board.getPiece(i, j)));
+
+                    switch (game.board.getPiece(i, j))
+                    {
+                    case Piece::KNOT:
+                        waddch(boardBox, 'O' | A_BOLD | COLOR_PAIR(1));
+                        break;
+                    case Piece::CROSS:
+                        waddch(boardBox, 'X' | A_BOLD | COLOR_PAIR(2));
+                        break;
+                    default:
+                        waddch(boardBox, ' ');
+                    }
+
                     waddch(boardBox, ' ');
                     if (i < 2)
                         waddch(boardBox, ACS_VLINE);
